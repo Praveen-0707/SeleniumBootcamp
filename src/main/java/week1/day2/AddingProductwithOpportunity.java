@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class CreateOpportunity {
+public class AddingProductwithOpportunity {
 
 	public static void main(String[] args) throws InterruptedException {
 		WebDriverManager.chromedriver().setup();
@@ -53,38 +53,26 @@ public class CreateOpportunity {
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//span[text()='All Opportunities']/ancestor::a[@role='menuitemcheckbox']")));
 		js.executeScript("arguments[0].click();", ele);
 		
+//		Opportunity Search
+		WebElement searchOpp = driver.findElementByXPath("//input[contains(@name,'search-input')]");
+		wait.until(ExpectedConditions.elementToBeClickable(searchOpp));
+		searchOpp.sendKeys(oppName);
+		searchOpp.sendKeys(Keys.ENTER);
 		Thread.sleep(2000);
-		ele = wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//div[text()='New']")));
-		ele.click();
-//		driver.findElementByXPath("//div[text()='New']").click();
-		Thread.sleep(2000);
+
+		WebElement OppVal = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("(//a[text()='" + oppName + "'])[1]")));
+		OppVal.click();
 		
-		driver.findElementByXPath("//label[text()='Opportunity Name']/following-sibling::div//input[@name ='Name']").sendKeys(oppName);
-		driver.findElementByXPath("//label[text()='Amount']/following-sibling::div//input[@name ='Amount']").sendKeys("60000");
-		driver.findElementByXPath("//label[text()='Close Date']/following-sibling::div//input[@name ='CloseDate']").sendKeys("6/10/2021");
-		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//label[text()='Type']/following-sibling::div//input[@type ='text']")));
+		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//a[@title='Show 2 more actions' and @role='button']")));
 		ele.click();
-		ele.sendKeys("N");
-		ele.sendKeys(Keys.ENTER);
 		
-		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//label[text()='Lead Source']/following-sibling::div//input[@type ='text']")));
+		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//a[@title='Add Products' and @role='menuitem']")));
 		ele.click();
-		ele.sendKeys("P");
-		ele.sendKeys(Keys.ARROW_DOWN);
-		ele.sendKeys(Keys.ENTER);
 		
-		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//label[text()='Stage']/following-sibling::div//input[@type ='text']")));
-		ele.click();
-		ele.sendKeys("N");
-		ele.sendKeys(Keys.ENTER);
 		
-		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//label[text()='Primary Campaign Source']/following-sibling::div//input[@type='text']")));
-		ele.click();
-		Thread.sleep(1000);
-		ele.sendKeys(Keys.ARROW_DOWN);
-		ele.sendKeys(Keys.ENTER);
 		
-		driver.findElementByXPath("//button[@name='SaveEdit' and text()='Save']").click();
+		
+		
 		
 		//output validation
 		WebElement output = driver.findElement(By.xpath("//span[contains(text(),'Opportunity')]//a"));

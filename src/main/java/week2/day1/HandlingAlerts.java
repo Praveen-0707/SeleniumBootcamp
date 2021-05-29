@@ -1,5 +1,4 @@
 package week2.day1;
-//import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.chrome.ChromeDriver;
