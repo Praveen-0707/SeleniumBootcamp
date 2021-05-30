@@ -3,6 +3,8 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+//import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class HandlingAlerts {
@@ -51,3 +53,39 @@ public class HandlingAlerts {
 	}
 
 }
+
+/*
+What is Alerts
+- An Alert in Selenium is a small message box which appears on screen to give the user some information or notification. It notifies the user with some specific information or error, asks for permission to perform certain tasks and it also provides warning messages as well
+- An Alert requires user actions
+- Alert() returns an object of class RemoteAlert which implements the Alert interface.
+ 
+ Difference between Alerts and Popup
+ Alerts- Cant able to inspect and get webelement
+ popup-can able to inspect and get webelement
+  
+  
+ *Types of Alert:
+ Simple Alert-->only OK button (can able to accept or reject alert)
+ Prompt Alert-->ok and cancel button and text box (can able to pass values, able to accept or reject alert)
+ Confirmation Alert-->only ok and cancel button (can able to accept and reject)
+
+
+*Methods available in Alerts
+accept();
+dismiss();
+sendKeys();
+getText();
+
+
+*Handle Alerts
+accept(); ------> To approve the alert
+dismiss();------> To reject the alert
+sendKeys();-----> To pass values in alert 
+getText();------> To get text present in alert
+
+*Exception in Alert
+Noalertpresent-> If no alert is present we will get this exception
+Unhandledalertexception-> occurs when alert it is not addressed ex: if alert present in screen, but we are trying to perform 
+							some other action without acknowledging alert will throw UnhandledAlertException
+*/
