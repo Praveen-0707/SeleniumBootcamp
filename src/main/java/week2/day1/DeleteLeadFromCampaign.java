@@ -3,6 +3,7 @@ import java.util.List;
 //import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 //import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,24 +26,23 @@ public class DeleteLeadFromCampaign {
         driver.manage().window().maximize();
         
         @SuppressWarnings("deprecation")
-		WebDriverWait wait = new WebDriverWait(driver, 20);		// doubt - should check
-		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);		// check whether this needs to be repeated
+		WebDriverWait wait = new WebDriverWait(driver, 20);		
+		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);		
 		driver.manage().timeouts().pageLoadTimeout(20,TimeUnit.SECONDS);
 		
 		String url = "https://login.salesforce.com/";
 		driver.get(url);
 		WebElement ele;
-		JavascriptExecutor js = (JavascriptExecutor)driver;		// Java Script executor to handle WebElements
+		JavascriptExecutor js = (JavascriptExecutor)driver;	
 		
 		//Login Page
 		driver.findElement(By.id("username")).sendKeys("cypress@testleaf.com");
 		driver.findElement(By.id("password")).sendKeys("Selbootcamp@123");
 		driver.findElement(By.id("Login")).click();
 		
-//		Saleforce Application -- Create New Order
-		String lead = "Test SampleXPA";		// input data
+//		Saleforce Application
+		String lead = "Test SampleMCZ";		// input data
 		String campName = "BootCamp";
-//		String Flag_Validation = null;
 		
 		driver.findElementByXPath("//div[@class=\"slds-icon-waffle\"]").click();
 		WebElement viewALL = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//button[text()='View All' and @class='slds-button']")));
@@ -82,22 +82,22 @@ public class DeleteLeadFromCampaign {
 		
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//span[@title='Campaign Members']/../../../../../following-sibling::div//span[text()='View All']")));
 		ele.click();
-//		System.out.println("List");
-		List<WebElement> listofLeads = driver.findElements(By.xpath("(//a[@title='Lead']/../../following-sibling::td//a[contains(@class,'forceOutputLookup')])"));
-		int count = listofLeads.size();
-		int i = 0;
-		for (WebElement elements : listofLeads)
+		
+		List<WebElement> rows = driver.findElements(By.xpath("//table[contains(@class,'uiVirtualDataTable') and not(contains(@class,'slds-no-cell-focus'))]//tbody/tr"));
+		int size = rows.size();
+		for (int i = 1; i <= size; i++)
 		{
-			String leadMembers = elements.getText();
-			if (leadMembers.equals(lead))
+			WebElement listofleadNames = driver.findElement(By.xpath("//table[contains(@class,'uiVirtualDataTable') and not(contains(@class,'slds-no-cell-focus'))]//tbody/tr[" + i + "]//td[4]//a"));
+			String leadNames = listofleadNames.getText();
+		
+			if (leadNames.equals(lead))
 			{
 				System.out.println("Unable to Delete Lead, TC-Failed");
 				break;
 			}
 			else
 			{
-				i = i + 1;
-				if (i == count)
+				if (i == size)
 				{
 					System.out.println("Delete Lead was successful, TC-Passed");
 				}
