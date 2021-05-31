@@ -18,8 +18,8 @@ public class CreateOpportunity {
 		ChromeDriver driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		@SuppressWarnings("deprecation")
-		WebDriverWait wait = new WebDriverWait(driver, 20);		// doubt - should check
-		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);		// check whether this needs to be repeated
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
 		driver.manage().timeouts().pageLoadTimeout(20,TimeUnit.SECONDS);
 		
 		String url = "https://login.salesforce.com/";
@@ -27,14 +27,18 @@ public class CreateOpportunity {
 		WebElement ele;
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 		
-		//Login Page
+//		Login Page
 		driver.findElement(By.id("username")).sendKeys("cypress@testleaf.com");
 		driver.findElement(By.id("password")).sendKeys("Selbootcamp@123");
 		driver.findElement(By.id("Login")).click();
 		
-//		Saleforce Application -- Create Account Case
+//		SaleForce Application
 		String oppName = "TMT Steel";		// input data
+		
+//		Clicks on View All from Toggle Menu
 		driver.findElementByXPath("//div[@class=\"slds-icon-waffle\"]").click();
+		
+//		Filters search with Sales
 		WebElement viewALL = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//button[text()='View All' and @class='slds-button']")));
 		viewALL.click();
 		driver.findElementByXPath("//input[@type='search' and @placeholder='Search apps or items...']").sendKeys("Sales");	
@@ -42,23 +46,26 @@ public class CreateOpportunity {
 		WebElement Sales = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("(//p/mark[text()='Sales'])[last()]")));
 		Sales.click();
 		
+//		Clicks on View All Deals
 		WebElement allDeals = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//a/span[text()='View All Key Deals']")));
 		allDeals.click();
-		
 		Thread.sleep(2000);
-		WebElement Opp = wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//a[@title='Opportunities']/following::div")));
-		Opp.click();
 		
+//		Selecting DropDown from Tab Menu
+		ele = wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//a[@title='Opportunities']/following::div")));
+		ele.click();
 		Thread.sleep(3000);
+		
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//span[text()='All Opportunities']/ancestor::a[@role='menuitemcheckbox']")));
 		js.executeScript("arguments[0].click();", ele);
-		
 		Thread.sleep(2000);
+		
+//		Creating new Opportunity
 		ele = wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//div[text()='New']")));
 		ele.click();
-//		driver.findElementByXPath("//div[text()='New']").click();
 		Thread.sleep(2000);
 		
+//		Input Values
 		driver.findElementByXPath("//label[text()='Opportunity Name']/following-sibling::div//input[@name ='Name']").sendKeys(oppName);
 		driver.findElementByXPath("//label[text()='Amount']/following-sibling::div//input[@name ='Amount']").sendKeys("60000");
 		driver.findElementByXPath("//label[text()='Close Date']/following-sibling::div//input[@name ='CloseDate']").sendKeys("6/10/2021");
@@ -86,7 +93,7 @@ public class CreateOpportunity {
 		
 		driver.findElementByXPath("//button[@name='SaveEdit' and text()='Save']").click();
 		
-		//output validation
+//		Output validation
 		WebElement output = driver.findElement(By.xpath("//span[contains(text(),'Opportunity')]//a"));
 		wait.until(ExpectedConditions.visibilityOf(output));		// explicit wait
 		String outputValue = output.getText();

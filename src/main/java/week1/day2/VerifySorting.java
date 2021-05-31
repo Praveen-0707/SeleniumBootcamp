@@ -17,34 +17,38 @@ public class VerifySorting {
 			ChromeDriver driver = new ChromeDriver();
 			driver.manage().window().maximize();
 			@SuppressWarnings("deprecation")
-			WebDriverWait wait = new WebDriverWait(driver, 20);		// doubt - should check
+			WebDriverWait wait = new WebDriverWait(driver, 20);
 			driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
 			driver.manage().timeouts().pageLoadTimeout(20,TimeUnit.SECONDS);
 			
 			String url = "https://login.salesforce.com/";
 			driver.get(url);
 			
-			//Login Page
+//			Login Page
 			driver.findElement(By.id("username")).sendKeys("cypress@testleaf.com");
 			driver.findElement(By.id("password")).sendKeys("Selbootcamp@123");
 			driver.findElement(By.id("Login")).click();
 			
-//			Saleforce Application -- Create Account Case
+//			SaleForce Application
 			String sortMsg = null;	// input data
 
+//			Clicks on View All from Toggle Menu
 			driver.findElementByXPath("//div[@class=\"slds-icon-waffle\"]").click();
 			
+//			Filters search with Accounts
 			WebElement viewALL = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//button[text()='View All' and @class='slds-button']")));
 			viewALL.click();
 			driver.findElementByXPath("//input[@type='search' and @placeholder='Search apps or items...']").sendKeys("Accounts");	
 			
 			WebElement Accounts = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//p//mark[contains(text(),'Accounts')]")));
 			Accounts.click();
-			Thread.sleep(9000);
+			Thread.sleep(2000);
 			
+//			Clicks on Accounts Name Table Header for Sorting
 			WebElement AccountsSorting = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//span[text()='Sort']/following::span[text()='Account Name']/preceding-sibling::span/..")));
 			AccountsSorting.click();
 			
+//			Fetches run-time sorting value for validation
 			WebElement AccountsSort = driver.findElementByXPath("//span[@aria-live='assertive' and contains(text(),'Sorted')]");
 			wait.until(ExpectedConditions.visibilityOf(AccountsSort));
 			sortMsg = AccountsSort.getText();

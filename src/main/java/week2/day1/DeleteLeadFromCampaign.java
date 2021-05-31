@@ -35,16 +35,19 @@ public class DeleteLeadFromCampaign {
 		WebElement ele;
 		JavascriptExecutor js = (JavascriptExecutor)driver;	
 		
-		//Login Page
+//		Login Page
 		driver.findElement(By.id("username")).sendKeys("cypress@testleaf.com");
 		driver.findElement(By.id("password")).sendKeys("Selbootcamp@123");
 		driver.findElement(By.id("Login")).click();
 		
-//		Saleforce Application
+//		SaleForce Application
 		String lead = "Test SampleMCZ";		// input data
 		String campName = "BootCamp";
 		
+//		Clicks on View All from Toggle Menu
 		driver.findElementByXPath("//div[@class=\"slds-icon-waffle\"]").click();
+		
+//		Filters search with Sales
 		WebElement viewALL = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//button[text()='View All' and @class='slds-button']")));
 		viewALL.click();
 		driver.findElementByXPath("//input[@type='search' and @placeholder='Search apps or items...']").sendKeys("Sales");	
@@ -52,26 +55,32 @@ public class DeleteLeadFromCampaign {
 		WebElement Sales = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("(//p/mark[text()='Sales'])[last()]")));
 		Sales.click();
 		
+//		Clicks on Leads Tab
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//a[@title='Leads']")));
 		js.executeScript("arguments[0].click();", ele);
 		
+//		Leads search
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//input[contains(@name,'search')]")));
 		ele.sendKeys(lead);
 		ele.sendKeys(Keys.ENTER);
 		Thread.sleep(2000);
 		
+//		Selecting Drop Down value as Delete for selected Lead
 		ele = wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("(//a[text()='" +lead+ "']/following::td//a[@role='button'])[1]")));
 		ele.click();
 		
 		ele = wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//div[@role='button' and @title='Delete']/..")));
 		ele.click();
 		
+//		Delete PopUp
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//button[@title='Delete']")));
 		ele.click();
 		
+//		Clicks on Campaigns Tab
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//a[@title='Campaigns']")));
 		js.executeScript("arguments[0].click();", ele);
-			
+		
+//		Expand selected BootCamp
 		WebElement search = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//input[contains(@name,'search')]")));
 		search.sendKeys(campName,Keys.ENTER);
 		search.click();
@@ -80,9 +89,11 @@ public class DeleteLeadFromCampaign {
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("(//a[contains(@title,'" + campName + "')])[1]")));
 		ele.click();
 		
+//		View BootCamp Member details
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//span[@title='Campaign Members']/../../../../../following-sibling::div//span[text()='View All']")));
 		ele.click();
 		
+//		Search for Deleted Lead - Output Validation
 		List<WebElement> rows = driver.findElements(By.xpath("//table[contains(@class,'uiVirtualDataTable') and not(contains(@class,'slds-no-cell-focus'))]//tbody/tr"));
 		int size = rows.size();
 		for (int i = 1; i <= size; i++)

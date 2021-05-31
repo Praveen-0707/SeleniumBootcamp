@@ -18,31 +18,37 @@ public class CreateAccount {
 		ChromeDriver driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		@SuppressWarnings("deprecation")
-		WebDriverWait wait = new WebDriverWait(driver, 20);		// doubt - should check
-		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);		// check whether this needs to be repeated
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
 		driver.manage().timeouts().pageLoadTimeout(20,TimeUnit.SECONDS);
 		
 		String url = "https://login.salesforce.com/";
 		driver.get(url);
 		
-		//Login Page
+//		Login Page
 		driver.findElement(By.id("username")).sendKeys("cypress@testleaf.com");
 		driver.findElement(By.id("password")).sendKeys("Selbootcamp@123");
 		driver.findElement(By.id("Login")).click();
 		
-//		Saleforce Application -- Create Account Case
-		String AccountName = "Testleaf Delete";		// input data
+//		SaleForce Application -- Create Account Case
+		String AccountName = "Testleaf Create";		// input data
+		
+//		Clicks on View All from Toggle Menu
 		driver.findElementByXPath("//div[@class=\"slds-icon-waffle\"]").click();
+		
+//		Filters search with Accounts
 		WebElement viewALL = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//button[text()='View All' and @class='slds-button']")));
 		viewALL.click();
 		driver.findElementByXPath("//input[@type='search' and @placeholder='Search apps or items...']").sendKeys("Accounts");	
-
+		
 		WebElement Accounts = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//p//mark[contains(text(),'Accounts')]")));
 		Accounts.click();
+		
+//		Creating New Account
 		driver.findElementByXPath("//div[text()='New']").click();
 		driver.findElementByXPath("//input[@name='Name']").sendKeys(AccountName);
 		
-		//Ownership - dropdown value
+//		Ownership - DD value
 		WebElement dd_val = driver.findElement(By.xpath("//label[text()='Ownership']/following-sibling::div//input[@class='slds-input slds-combobox__input' and @type ='text']"));
 		wait.until(ExpectedConditions.elementToBeClickable(dd_val));
 		dd_val.click();
@@ -50,9 +56,9 @@ public class CreateAccount {
 		dd_val.sendKeys(Keys.ENTER);
 		driver.findElementByXPath("//button[@name='SaveEdit' and text()='Save']").click();
 		
-		//output validation
+//		Output validation
 		WebElement output = driver.findElement(By.xpath("//span[contains(text(),'Account')]//a"));
-		wait.until(ExpectedConditions.visibilityOf(output));		// explicit wait
+		wait.until(ExpectedConditions.visibilityOf(output));
 		String outputValue = output.getText();
 		
 		if (outputValue.contains(AccountName))

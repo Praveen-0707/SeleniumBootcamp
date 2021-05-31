@@ -18,41 +18,41 @@ public class HandlingAlerts {
 		
 		String url = "http://leafground.com/pages/Alert.html";
 		driver.get(url);
-		driver.manage().window().fullscreen();
+		driver.manage().window().maximize();
 		Thread.sleep(3000);
 	
 //		LeafGround WebPage - Alerts
-//		driver.manage().window().maximize();
+
 //		Simple Alerts - Used to notify a warning message with 'OK' button
 		driver.findElementByXPath("//button[text()='Alert Box']").click();
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		Thread.sleep(2000); }}
-//		
-////		Confirmation Alerts - used for the user confirmation of tasks
-//		driver.findElementByXPath("//button[text()='Confirm Box']").click();
-//		alert.dismiss();
-//		Thread.sleep(2000);
-//		
-////		Prompt Alert - asks user to input the required information to complete the task
-//		driver.findElementByXPath("//button[text()='Prompt Box']").click();
-//		alert.sendKeys("Testing Sample Alert");
-//		alert.accept();
-//		Thread.sleep(2000);
-//		
-////		Kind of Simple Alerts - displays more than a single line of information to User
-//		driver.findElementByXPath("//button[text()='Line Breaks?']").click();
-//		String alertText = alert.getText();
-//		System.out.println("Text from ALert: "+alertText);
-//		Thread.sleep(2000);
-//		
-////		Sweet Alert - Not a JavaScript Alert so cannot be handled with default ALert methods
-//		driver.findElementByXPath("//button[text()='Sweet Alert']").click();
-//		alert.accept();		//UnhandledAlertException - Since it is a PopUp dialog not an Alert
-//		
-//	}
-//
-//}
+		Thread.sleep(2000);
+		
+//		Confirmation Alerts - used for the user confirmation of tasks
+		driver.findElementByXPath("//button[text()='Confirm Box']").click();
+		alert.dismiss();
+		Thread.sleep(2000);
+		
+//		Prompt Alert - asks user to input the required information to complete the task
+		driver.findElementByXPath("//button[text()='Prompt Box']").click();
+		alert.sendKeys("Testing Sample Alert");
+		alert.accept();
+		Thread.sleep(2000);
+		
+//		Kind of Simple Alerts - displays more than a single line of information to User
+		driver.findElementByXPath("//button[text()='Line Breaks?']").click();
+		String alertText = alert.getText();
+		System.out.println("Text from ALert: "+alertText);
+		Thread.sleep(2000);
+		
+//		Sweet Alert - Not a JavaScript Alert so cannot be handled with default ALert methods
+		driver.findElementByXPath("//button[text()='Sweet Alert']").click();
+		alert.accept();		//UnhandledAlertException - Since it is a PopUp dialog not an Alert
+		
+	}
+
+}
 //
 // /*
 //***What is Alerts:

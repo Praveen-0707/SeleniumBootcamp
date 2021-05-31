@@ -16,17 +16,15 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class CreateLeadforCampaign {
 
 	public static void main(String[] args) throws InterruptedException {
-//		WebDriverManager.chromedriver().setup();	//not part of selenium, imported from third party jar
-//		public static org.apache.logging.log4.Logger logger = LogManager.getLogger();
 		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
-        ChromeDriver driver = new ChromeDriver(options); 		//extends ChromiumDriver which extends RemoteWebDriver
+        ChromeDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         
         @SuppressWarnings("deprecation")
-		WebDriverWait wait = new WebDriverWait(driver, 20);		// doubt - should check
-		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);		// check whether this needs to be repeated
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
 		driver.manage().timeouts().pageLoadTimeout(20,TimeUnit.SECONDS);
 		
 		String url = "https://login.salesforce.com/";
@@ -34,12 +32,12 @@ public class CreateLeadforCampaign {
 		WebElement ele;
 		JavascriptExecutor js = (JavascriptExecutor)driver;		// Java Script executor to handle WebElements
 		
-		//Login Page
+//		Login Page
 		driver.findElement(By.id("username")).sendKeys("cypress@testleaf.com");
 		driver.findElement(By.id("password")).sendKeys("Selbootcamp@123");
 		driver.findElement(By.id("Login")).click();
 		
-//		Saleforce Application -- Create New Order
+//		SaleForce Application
 		String campName = "BootCamp";		// input data
 		String Flag_Validation = null;
 		String randomString = "";
@@ -60,8 +58,11 @@ public class CreateLeadforCampaign {
 		
 		lName += randomString;
 		leadName = fName + " " + lName;
-				
+		
+//		Clicks on View All from Toggle Menu
 		driver.findElementByXPath("//div[@class=\"slds-icon-waffle\"]").click();
+		
+//		Filters search with Sales
 		WebElement viewALL = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//button[text()='View All' and @class='slds-button']")));
 		viewALL.click();
 		driver.findElementByXPath("//input[@type='search' and @placeholder='Search apps or items...']").sendKeys("Sales");	
@@ -69,27 +70,32 @@ public class CreateLeadforCampaign {
 		WebElement Sales = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("(//p/mark[text()='Sales'])[last()]")));
 		Sales.click();
 		
+//		Clicks on Campaigns Tab
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//a[@title='Campaigns']")));
 		js.executeScript("arguments[0].click();", ele);
-			
+		
+//		Searching for BootCamp
 		WebElement search = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//input[contains(@name,'search')]")));
-		search.sendKeys("BootCamp",Keys.ENTER);
+		search.sendKeys(campName,Keys.ENTER);
 		Thread.sleep(2000);
 		
+//		Expands selected BootCamp
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("(//a[contains(@title,'" + campName + "')])[1]")));
 		ele.click();
 		
+//		Adding Lead to BootCamp
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//a[@title='Add Leads']")));
 		ele.click();
-//		Thread.sleep(2000);
 		
+//		Selecting Value from DropDown
 		ele = wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//lightning-icon[contains(@class,'inputLookupIcon')]")));
 		js.executeScript("arguments[0].click();", ele);
 		Thread.sleep(2000);
 		
 		ele = wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//span[@title='New Lead']")));
 		ele.click();
-					
+		
+//		Input Values
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("(//span[text()='Salutation']/following::div/a[contains(text(),'None')])[1]")));
 		ele.click();
 		ele.sendKeys("M");
@@ -104,6 +110,7 @@ public class CreateLeadforCampaign {
 		ele = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("(//label/span[text()='Company']/following::input[contains(@class,'input')])[1]")));
 		ele.sendKeys("Testleaf");
 		
+//		Saving Changes
 		driver.findElementByXPath("(//button/span[text()='Save'])[last()]").click();
 		Thread.sleep(1000);
 		
@@ -114,9 +121,9 @@ public class CreateLeadforCampaign {
 		ele = wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//span[text()='Submit']")));
 		js.executeScript("arguments[0].click();", ele);
 		
-		//output validation
+//		Output validation
 		WebElement output = driver.findElement(By.xpath("//div[contains(@class,'toastTitle')]"));
-		wait.until(ExpectedConditions.visibilityOf(output));		// explicit wait
+		wait.until(ExpectedConditions.visibilityOf(output));
 		String outputValue = output.getText();
 		
 		if (outputValue.contains(campName))
