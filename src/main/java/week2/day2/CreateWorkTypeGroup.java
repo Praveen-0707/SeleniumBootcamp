@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -16,7 +17,9 @@ public class CreateWorkTypeGroup {
 
 	public static void main(String[] args) throws InterruptedException {
 		WebDriverManager.chromedriver().setup();
-		ChromeDriver driver = new ChromeDriver();
+		ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-notifications");
+		ChromeDriver driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
 		@SuppressWarnings("deprecation")
 		WebDriverWait wait = new WebDriverWait(driver, 20);
@@ -34,7 +37,7 @@ public class CreateWorkTypeGroup {
 		driver.findElement(By.id("Login")).click();
 		
 //		SaleForce Application
-		String workTypeGroup_Name = "Praveen Raj";		// input data
+		String workTypeGroup_Name = "Prakash Raj";		// input data
 		String randomString = "";
 		
 //		Generating Random String
