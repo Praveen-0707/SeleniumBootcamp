@@ -3,6 +3,8 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -28,6 +30,7 @@ public class VerifySorting {
 			
 			String url = "https://login.salesforce.com/";
 			driver.get(url);
+			JavascriptExecutor js = (JavascriptExecutor)driver;
 			
 //			Login Page
 			driver.findElement(By.id("username")).sendKeys("cypress@testleaf.com");
@@ -53,6 +56,11 @@ public class VerifySorting {
 //			Clicks on Accounts Name Table Header for Sorting
 			WebElement AccountsSorting = wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//span[text()='Sort']/following::span[text()='Account Name']/preceding-sibling::span/..")));
 			AccountsSorting.click();
+			Thread.sleep(5000);
+			
+//			js.executeScript("window.scrollBy(0,250)");
+//			js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+//			Thread.sleep(2000);
 			
 //			Fetches run-time sorting value for validation
 			WebElement AccountsSort = driver.findElementByXPath("//span[@aria-live='assertive' and contains(text(),'Sorted')]");
@@ -81,7 +89,7 @@ public class VerifySorting {
 			
 //			WebElements comparison post sorting
 			if (flag)
-			{
+			{		
 				List<WebElement> rows = driver.findElements(By.xpath("//table[contains(@class,'uiVirtualDataTable')]/tbody/tr"));
 				int size = rows.size();
 				System.out.println("Row Count: " +size);
@@ -90,6 +98,7 @@ public class VerifySorting {
 				for (int i=1; i<size; i++)
 				{
 					WebElement listofAcc_Names = driver.findElement(By.xpath("//table[contains(@class,'uiVirtualDataTable')]/tbody/tr["+i+"]/th//a"));
+					listofAcc_Names.sendKeys(Keys.PAGE_DOWN); 	//scrolls page dynamically adjusted to Web Table content
 					String str = listofAcc_Names.getText();
 					actual_order[i-1] = str;
 					sorted_order[i-1] = str;
@@ -98,7 +107,7 @@ public class VerifySorting {
 				Arrays.sort(sorted_order); 		// sorting the Array in ascending order
 				int length = actual_order.length;
 				int length1 = sorted_order.length;
-				
+				System.out.println("Array Count: " +length);
 				for (int j=0; j<=length-1; j++)
 				{
 					if (actual_order[j].equals(sorted_order[j]))
