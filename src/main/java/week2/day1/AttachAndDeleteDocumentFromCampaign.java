@@ -69,7 +69,7 @@ public class AttachAndDeleteDocumentFromCampaign {
 				rb.keyPress(KeyEvent.VK_ENTER);
 				rb.keyRelease(KeyEvent.VK_ENTER);
 				//click on the Done button to dismiss the alert
-				Thread.sleep(5000);
+				Thread.sleep(3000);
 				driver.findElement(By.xpath("//button[@type='button']//span[text()='Done']")).click();
 				
 				//To verify if the uploaded file name is a hyperlink

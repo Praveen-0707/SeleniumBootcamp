@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="TestSuite">
+  <test thread-count="5" name="Campaign">
+    <classes>
+      <class name="testNG.CreateLeadforCampaign"/>
+      <class name="testNG.DeleteLeadFromCampaign"/>
+      <class name="testNG.AttachAndDeleteDocumentFromCampaign"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
