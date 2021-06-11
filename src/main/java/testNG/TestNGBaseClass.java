@@ -3,6 +3,7 @@ package testNG;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -31,6 +32,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class TestNGBaseClass {
 		
 	public RemoteWebDriver driver;
+	public WebDriver wd;
 	public ChromeOptions chromeOptions;
 	public FirefoxOptions firefoxOptions;
 	public InternetExplorerOptions ieOptions;
@@ -105,6 +107,7 @@ public class TestNGBaseClass {
 			  driver = new EdgeDriver(edgeOptions);
 		  }
 		  
+		  driver.manage().deleteAllCookies();
 		  driver.manage().window().maximize();
 		  wait = new WebDriverWait(driver,Duration.ofSeconds(20));
 		  driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
